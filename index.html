@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa Poggioli – Alta Val Nure, Piacenza</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stone:     #1A1816;
+    --earth:     #524740;
+    --accent:    #7A6355;   /* brun foncé — aucun orange vif */
+    --warm:      #B89878;   /* beige doré sobre */
+    --cream:     #F0EAE0;
+    --sage:      #4D6358;
+    --sage-light:#EBF0EB;
+    --light:     #F8F5F0;
+    --white:     #FFFFFF;
+    --border:    rgba(90,75,65,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'DM Sans',sans-serif;background:var(--light);color:var(--stone);overflow-x:hidden;line-height:1.6;}
+
+  /* ── BANNER ── */
+  .banner{
+    background:var(--sage);
+    padding:0;
+    height:40px;
+    display:flex;align-items:center;justify-content:center;
+    gap:0.5rem;
+    overflow:hidden;
+  }
+  .banner-text{
+    font-size:0.75rem;color:rgba(255,255,255,0.82);
+    font-weight:300;letter-spacing:0.05em;
+    white-space:nowrap;
+  }
+  .banner-sep{color:rgba(255,255,255,0.3);font-size:0.65rem;}
+  .banner a{
+    font-size:0.75rem;color:var(--warm);font-weight:500;
+    text-decoration:none;letter-spacing:0.06em;
+    white-space:nowrap;border-bottom:1px solid rgba(184,152,120,0.5);
+    padding-bottom:1px;transition:color 0.2s;
+  }
+  .banner a:hover{color:white;border-color:white;}
+  @media(max-width:580px){
+    .banner{flex-direction:column;height:auto;padding:0.45rem 1rem;gap:0.15rem;}
+    .banner-sep{display:none;}
+    .banner-text,.banner a{font-size:0.72rem;}
+  }
+
+  /* ── NAV ── */
+  nav{
+    position:fixed;left:0;right:0;z-index:100;
+    top:40px;
+    padding:0 3rem;height:64px;
+    display:flex;align-items:center;justify-content:space-between;
+    transition:top 0.35s ease,background 0.35s ease,box-shadow 0.35s ease;
+  }
+  nav.scrolled{
+    top:0;
+    background:rgba(248,245,240,0.96);
+    backdrop-filter:blur(16px);
+    box-shadow:0 1px 0 var(--border);
+  }
+  .nav-logo{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.1rem;font-weight:600;
+    color:white;text-decoration:none;
+    letter-spacing:0.07em;transition:color 0.3s;
+  }
+  nav.scrolled .nav-logo{color:var(--stone);}
+  .nav-links{display:flex;align-items:center;gap:1.8rem;list-style:none;}
+  .nav-links a{
+    font-size:0.7rem;color:rgba(255,255,255,0.72);
+    text-decoration:none;letter-spacing:0.14em;
+    text-transform:uppercase;transition:color 0.25s;font-weight:400;
+  }
+  nav.scrolled .nav-links a{color:var(--earth);}
+  .nav-links a:hover{color:var(--warm)!important;}
+  .nav-cta{color:var(--warm)!important;font-weight:500!important;}
+  .lang-sw{display:flex;gap:0.3rem;margin-left:1.2rem;}
+  .lb{
+    background:none;border:1px solid rgba(255,255,255,0.28);
+    color:rgba(255,255,255,0.65);padding:0.18rem 0.48rem;
+    border-radius:2px;font-size:0.67rem;
+    font-family:'DM Sans',sans-serif;letter-spacing:0.1em;
+    cursor:pointer;transition:all 0.25s;
+  }
+  nav.scrolled .lb{border-color:var(--border);color:var(--earth);}
+  .lb.on{background:var(--sage);border-color:var(--sage);color:white!important;}
+  .lb:not(.on):hover{border-color:var(--warm);color:var(--warm)!important;}
+  .ham{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+  .ham span{width:22px;height:1.5px;background:white;display:block;transition:background 0.3s;}
+  nav.scrolled .ham span{background:var(--stone);}
+
+  /* ── LANG ── */
+  .L{display:none;}.L.on{display:inline;}
+
+  /* ── HERO ── */
+  .hero{
+    position:relative;
+    height:100vh;min-height:580px;
+    display:flex;align-items:flex-end;overflow:hidden;
+  }
+  .hero-bg{
+    position:absolute;inset:0;
+    background:
+      linear-gradient(to bottom,rgba(16,14,12,0.18) 0%,rgba(16,14,12,0.72) 100%),
+      url('img/hero.jpg') center/cover no-repeat;
+    transform:scale(1.04);animation:hZoom 14s ease-out forwards;
+  }
+  @keyframes hZoom{from{transform:scale(1.04);}to{transform:scale(1);}}
+  .hero-body{position:relative;z-index:2;padding:0 4rem 5.5rem;max-width:780px;}
+  .h-eye{
+    font-size:0.67rem;color:rgba(184,152,120,0.85);
+    letter-spacing:0.26em;text-transform:uppercase;
+    margin-bottom:1.1rem;opacity:0;animation:fU 0.9s 0.4s ease forwards;
+  }
+  .hero-body h1{
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.7rem,5.5vw,4.5rem);
+    font-weight:300;color:white;line-height:1.07;
+    margin-bottom:1.4rem;opacity:0;animation:fU 0.9s 0.65s ease forwards;
+  }
+  .hero-body h1 em{font-style:italic;color:var(--warm);}
+  .h-desc{
+    font-size:0.93rem;font-weight:300;
+    color:rgba(255,255,255,0.72);line-height:1.82;
+    max-width:500px;margin-bottom:2.4rem;
+    opacity:0;animation:fU 0.9s 0.85s ease forwards;
+  }
+  .h-cta{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fU 0.9s 1.05s ease forwards;}
+  .btn-solid{
+    display:inline-block;background:var(--stone);color:white;
+    padding:0.78rem 1.9rem;font-size:0.72rem;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;
+    text-decoration:none;border:2px solid var(--stone);transition:all 0.3s;
+  }
+  .btn-solid:hover{background:transparent;border-color:white;}
+  .btn-ghost{
+    display:inline-block;background:transparent;color:white;
+    padding:0.78rem 1.9rem;font-size:0.72rem;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;
+    text-decoration:none;border:2px solid rgba(255,255,255,0.38);transition:all 0.3s;
+  }
+  .btn-ghost:hover{border-color:white;}
+  .h-scroll{
+    position:absolute;bottom:2.5rem;right:4rem;
+    display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+    opacity:0;animation:fI 1s 1.5s ease forwards;
+  }
+  .h-scroll span{font-size:0.58rem;color:rgba(255,255,255,0.38);letter-spacing:0.22em;text-transform:uppercase;writing-mode:vertical-rl;}
+  .h-scroll-line{width:1px;height:42px;background:linear-gradient(to bottom,rgba(255,255,255,0.38),transparent);}
+  @keyframes fU{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fI{from{opacity:0;}to{opacity:1;}}
+
+  /* ── STATS ── */
+  .stats{background:var(--stone);display:grid;grid-template-columns:repeat(4,1fr);}
+  .s-item{padding:2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,0.055);}
+  .s-item:last-child{border-right:none;}
+  .s-num{font-family:'Cormorant Garamond',serif;font-size:2.1rem;font-weight:300;color:var(--warm);display:block;line-height:1;margin-bottom:0.28rem;}
+  .s-lab{font-size:0.66rem;color:rgba(255,255,255,0.4);letter-spacing:0.15em;text-transform:uppercase;}
+
+  /* ── TYPO HELPERS ── */
+  .eye{display:block;font-size:0.65rem;font-weight:500;color:var(--accent);letter-spacing:0.24em;text-transform:uppercase;margin-bottom:0.85rem;}
+  .ttl{font-family:'Cormorant Garamond',serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:300;color:var(--stone);line-height:1.2;margin-bottom:1.3rem;}
+  .ttl em{font-style:italic;color:var(--sage);}
+  .para{font-size:0.88rem;font-weight:300;color:var(--earth);line-height:1.88;}
+  .para+.para{margin-top:1rem;}
+  .para strong{color:var(--stone);font-weight:500;}
+  .btn-line{
+    display:inline-block;background:transparent;color:var(--stone);
+    padding:0.72rem 1.7rem;font-size:0.7rem;font-weight:500;
+    letter-spacing:0.14em;text-transform:uppercase;
+    text-decoration:none;border:1.5px solid var(--stone);
+    transition:all 0.3s;margin-top:1.5rem;
+  }
+  .btn-line:hover{background:var(--stone);color:white;}
+
+  /* ── INTRO ── */
+  .intro{background:var(--white);display:grid;grid-template-columns:1fr 1fr;}
+  .i-text{padding:5.5rem 5rem;display:flex;flex-direction:column;justify-content:center;gap:1.1rem;}
+  .i-img{position:relative;min-height:520px;overflow:hidden;}
+  .i-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 0.7s;}
+  .i-img:hover img{transform:scale(1.03);}
+
+  /* ── STAYS ── */
+  .stays{background:var(--cream);padding:6rem 3rem;}
+  .s-hd{max-width:540px;margin-bottom:3.5rem;}
+  .s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+  .s-card{position:relative;overflow:hidden;aspect-ratio:3/4;cursor:pointer;}
+  .s-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s;filter:saturate(0.88);}
+  .s-card:hover img{transform:scale(1.05);filter:saturate(1);}
+  .s-ov{
+    position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(16,14,12,0.94) 0%,rgba(16,14,12,0.08) 55%,transparent 100%);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;
+    transition:background 0.4s;
+  }
+  .s-tag{
+    display:inline-block;background:var(--sage);color:white;
+    font-size:0.59rem;font-weight:500;letter-spacing:0.17em;
+    text-transform:uppercase;padding:0.24rem 0.58rem;
+    margin-bottom:0.6rem;width:fit-content;
+  }
+  .s-name{font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:400;color:white;line-height:1.15;margin-bottom:0.35rem;}
+  .s-desc{
+    font-size:0.77rem;font-weight:300;color:rgba(255,255,255,0.7);
+    line-height:1.65;max-height:0;overflow:hidden;
+    transition:max-height 0.45s,opacity 0.4s;opacity:0;
+  }
+  .s-card:hover .s-desc{max-height:130px;opacity:1;}
+  .s-lnk{
+    display:inline-flex;align-items:center;gap:0.5rem;
+    color:var(--warm);font-size:0.68rem;font-weight:500;
+    letter-spacing:0.13em;text-transform:uppercase;
+    text-decoration:none;margin-top:0.9rem;transition:gap 0.3s;
+  }
+  .s-lnk:hover{gap:0.85rem;}
+  .s-lnk::after{content:'→';}
+
+  /* ── GALLERY ── */
+  .gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:2px;}
+  .g-item{overflow:hidden;}
+  .g-item.tall{grid-row:span 2;}
+  .g-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s,filter 0.4s;filter:brightness(0.82) saturate(0.85);}
+  .g-item:hover img{transform:scale(1.06);filter:brightness(0.98) saturate(1);}
+
+  /* ── HIGHLIGHTS ── */
+  .hl{display:grid;grid-template-columns:1fr 1fr;}
+  .hl-img{position:relative;min-height:570px;overflow:hidden;}
+  .hl-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+  .hl-body{padding:5.5rem 5rem;background:#1A1816;display:flex;flex-direction:column;justify-content:center;}
+  .hl-body .eye{color:rgba(184,152,120,0.6);}
+  .hl-body .ttl{color:white;}
+  .hl-body .ttl em{color:var(--warm);}
+  .hl-list{list-style:none;margin-top:1.5rem;}
+  .hl-list li{
+    display:flex;align-items:flex-start;gap:1rem;
+    padding:0.95rem 0;border-bottom:1px solid rgba(255,255,255,0.065);
+    color:rgba(255,255,255,0.62);font-size:0.84rem;font-weight:300;line-height:1.68;
+  }
+  .hl-list li:first-child{border-top:1px solid rgba(255,255,255,0.065);}
+  .hl-ic{font-size:0.8rem;flex-shrink:0;margin-top:0.18rem;opacity:0.65;color:var(--warm);}
+  .hl-list strong{color:white;font-weight:500;display:block;margin-bottom:0.1rem;}
+
+  /* ── SERVICES ── */
+  .svc{background:var(--light);padding:6rem 3rem;}
+  .svc-hd{margin-bottom:3rem;}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+  .svc-card{background:var(--white);overflow:hidden;}
+  .svc-img{aspect-ratio:16/10;overflow:hidden;}
+  .svc-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;filter:saturate(0.82);}
+  .svc-card:hover .svc-img img{transform:scale(1.04);filter:saturate(1);}
+  .svc-bd{padding:1.8rem;}
+  .svc-n{font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--accent);opacity:0.5;margin-bottom:0.35rem;}
+  .svc-t{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--stone);margin-bottom:0.6rem;}
+  .svc-p{font-size:0.81rem;font-weight:300;color:var(--earth);line-height:1.78;}
+  .svc-arr{
+    display:inline-flex;align-items:center;gap:0.4rem;
+    font-size:0.67rem;font-weight:500;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--sage);text-decoration:none;
+    margin-top:1.1rem;transition:gap 0.3s,color 0.2s;
+  }
+  .svc-arr:hover{gap:0.7rem;color:var(--stone);}
+
+  /* ── CASE STUDY ── */
+  .cs{background:var(--white);padding:6rem 3rem;}
+  .cs-hd{max-width:680px;margin-bottom:3rem;}
+  .cs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+  .cs-it{overflow:hidden;aspect-ratio:4/3;}
+  .cs-it img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;filter:saturate(0.82);}
+  .cs-it:hover img{transform:scale(1.05);filter:saturate(1);}
+  .cs-feats{display:grid;grid-template-columns:repeat(2,1fr);margin-top:2.5rem;border:1px solid var(--border);}
+  .cs-f{padding:1.7rem 2rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;}
+  .cs-f:nth-child(2n){border-right:none;}
+  .cs-f:nth-child(n+3){border-bottom:none;}
+  .cs-ic{font-size:1.15rem;flex-shrink:0;}
+  .cs-f strong{display:block;font-size:0.83rem;font-weight:500;color:var(--stone);margin-bottom:0.16rem;}
+  .cs-f span{font-size:0.77rem;font-weight:300;color:var(--earth);line-height:1.62;}
+
+  /* ── AFFITTI ── */
+  .affitti{display:grid;grid-template-columns:1fr 1fr;}
+  .af-text{padding:5.5rem 5rem;background:var(--cream);display:flex;flex-direction:column;justify-content:center;gap:1.1rem;}
+  .af-ph{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+  .af-ph div{overflow:hidden;}
+  .af-ph div:first-child{grid-column:span 2;aspect-ratio:16/7;}
+  .af-ph div:not(:first-child){aspect-ratio:4/3;}
+  .af-ph img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;filter:saturate(0.88);}
+  .af-ph div:hover img{transform:scale(1.04);filter:saturate(1);}
+
+  /* ── VENDITA ── */
+  .vd{background:var(--light);padding:6rem 3rem;}
+  .vd-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1.5rem;}
+  .vd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+  .vd-it{overflow:hidden;aspect-ratio:4/3;}
+  .vd-it:first-child{grid-column:span 2;aspect-ratio:16/9;}
+  .vd-it img{width:100%;height:100%;object-fit:cover;transition:transform 0.55s;filter:saturate(0.85);}
+  .vd-it:hover img{transform:scale(1.04);filter:saturate(1);}
+
+  /* ── GASTRO ── */
+  .gastro{background:var(--earth);padding:2.8rem 3rem;display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;}
+  .g-ico{font-size:2.2rem;flex-shrink:0;}
+  .g-txt h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:white;margin-bottom:0.3rem;}
+  .g-txt p{font-size:0.83rem;color:rgba(255,255,255,0.65);font-weight:300;line-height:1.7;}
+  .g-tags{display:flex;gap:0.65rem;flex-wrap:wrap;margin-left:auto;}
+  .g-tag{background:rgba(255,255,255,0.09);border:1px solid rgba(255,255,255,0.16);color:rgba(255,255,255,0.8);padding:0.38rem 0.9rem;font-size:0.73rem;font-weight:300;}
+
+  /* ── TERRITORY ── */
+  .terr{background:#263830;padding:5rem 3rem;text-align:center;}
+  .terr .eye{color:rgba(255,255,255,0.4);}
+  .terr .ttl{color:white;margin-bottom:3rem;}
+  .terr .ttl em{color:var(--warm);}
+  .t-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;border:1px solid rgba(255,255,255,0.07);}
+  .t-item{padding:2rem 1.5rem;border-right:1px solid rgba(255,255,255,0.07);transition:background 0.3s;}
+  .t-item:last-child{border-right:none;}
+  .t-item:hover{background:rgba(255,255,255,0.05);}
+  .t-d{font-family:'Cormorant Garamond',serif;font-size:1.95rem;font-weight:300;color:var(--warm);display:block;margin-bottom:0.2rem;}
+  .t-p{font-size:0.83rem;font-weight:400;color:rgba(255,255,255,0.85);display:block;margin-bottom:0.3rem;}
+  .t-n{font-size:0.66rem;color:rgba(255,255,255,0.45);font-weight:300;}
+
+  /* ── CONTACT ── */
+  .contact{display:grid;grid-template-columns:1fr 1fr;}
+  .c-txt{padding:5.5rem 5rem;background:var(--white);}
+  .c-items{margin-top:2.4rem;display:flex;flex-direction:column;gap:1.4rem;}
+  .c-it{display:flex;align-items:flex-start;gap:1.1rem;}
+  .c-ico{width:36px;height:36px;background:var(--sage);display:flex;align-items:center;justify-content:center;color:white;font-size:0.85rem;flex-shrink:0;}
+  .c-lab{font-size:0.63rem;letter-spacing:0.17em;text-transform:uppercase;color:var(--accent);font-weight:500;display:block;margin-bottom:0.18rem;}
+  .c-val{font-size:0.93rem;color:var(--stone);font-weight:300;}
+  .c-val a{color:var(--stone);text-decoration:none;transition:color 0.2s;}
+  .c-val a:hover{color:var(--sage);}
+  .c-vis{position:relative;overflow:hidden;min-height:480px;}
+  .c-vis img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;filter:brightness(0.38) saturate(0.65);}
+  .c-cap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:3rem;}
+  .c-cap span{font-size:0.66rem;color:rgba(255,255,255,0.45);letter-spacing:0.18em;text-transform:uppercase;display:block;margin-bottom:0.6rem;}
+  .c-cap p{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;color:white;line-height:1.3;}
+  .c-cap p em{font-style:italic;color:var(--warm);}
+
+  /* ── FOOTER ── */
+  footer{background:var(--stone);padding:2.2rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+  .f-logo{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;color:white;letter-spacing:0.07em;}
+  .f-lnks{display:flex;gap:1.8rem;list-style:none;}
+  .f-lnks a{font-size:0.66rem;color:rgba(255,255,255,0.32);text-decoration:none;letter-spacing:0.11em;text-transform:uppercase;transition:color 0.2s;}
+  .f-lnks a:hover{color:var(--warm);}
+  .f-copy{font-size:0.66rem;color:rgba(255,255,255,0.25);letter-spacing:0.07em;}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:1000px){
+    .gallery{grid-template-columns:repeat(2,1fr);}
+    .g-item.tall{grid-row:span 1;}
+    .t-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:900px){
+    nav{padding:0 1.5rem;}
+    .nav-links{display:none;}
+    .ham{display:flex;}
+    .hero-body{padding:0 1.5rem 4rem;}
+    .intro,.hl,.affitti,.contact{grid-template-columns:1fr;}
+    .i-text,.hl-body,.af-text,.c-txt{padding:3.5rem 1.5rem;}
+    .i-img,.hl-img,.c-vis{min-height:260px;position:relative;}
+    .i-img img,.hl-img img{position:static;width:100%;height:260px;}
+    .s-grid,.svc-grid,.vd-grid{grid-template-columns:1fr;}
+    .vd-it:first-child{grid-column:span 1;aspect-ratio:4/3;}
+    .cs-grid{grid-template-columns:1fr 1fr;}
+    .cs-feats{grid-template-columns:1fr;}
+    .stats{grid-template-columns:1fr 1fr;}
+    .gallery{grid-template-columns:1fr 1fr;}
+    .gastro{flex-direction:column;}
+    .g-tags{margin-left:0;}
+    .stays,.svc,.cs,.vd,.terr{padding:4rem 1.5rem;}
+    footer{flex-direction:column;text-align:center;}
+    .f-lnks{flex-wrap:wrap;justify-content:center;}
+    .vd-hd{flex-direction:column;align-items:flex-start;}
+    .af-ph div:first-child{aspect-ratio:4/3;}
+    .lang-sw{margin-left:0.4rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">
+  <span class="banner-text">
+    <span class="L on" data-l="it">Prenota il tuo soggiorno in Val Nure</span>
+    <span class="L" data-l="fr">Réservez votre séjour en Val Nure</span>
+    <span class="L" data-l="en">Book your stay in Val Nure</span>
+  </span>
+  <span class="banner-sep">—</span>
+  <a href="https://www.villapoggioli.it/it/" target="_blank">villapoggioli.it →</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">CASA POGGIOLI</a>
+  <ul class="nav-links">
+    <li><a href="#stays"><span class="L on" data-l="it">Alloggi</span><span class="L" data-l="fr">Hébergements</span><span class="L" data-l="en">Stays</span></a></li>
+    <li><a href="#svc"><span class="L on" data-l="it">Servizi</span><span class="L" data-l="fr">Services</span><span class="L" data-l="en">Services</span></a></li>
+    <li><a href="#vd"><span class="L on" data-l="it">Vendita</span><span class="L" data-l="fr">Vente</span><span class="L" data-l="en">Sales</span></a></li>
+    <li><a href="#terr"><span class="L on" data-l="it">Territorio</span><span class="L" data-l="fr">Territoire</span><span class="L" data-l="en">Territory</span></a></li>
+    <li><a href="#contact"><span class="L on" data-l="it">Contatti</span><span class="L" data-l="fr">Contact</span><span class="L" data-l="en">Contact</span></a></li>
+    <li><a href="https://www.villapoggioli.it/it/" target="_blank" class="nav-cta"><span class="L on" data-l="it">Prenota →</span><span class="L" data-l="fr">Réserver →</span><span class="L" data-l="en">Book →</span></a></li>
+  </ul>
+  <div class="lang-sw">
+    <button class="lb on" onclick="setLang('it')">IT</button>
+    <button class="lb" onclick="setLang('fr')">FR</button>
+    <button class="lb" onclick="setLang('en')">EN</button>
+  </div>
+  <div class="ham" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-body">
+    <p class="h-eye">Alta Val Nure · Provincia di Piacenza · Emilia-Romagna</p>
+    <h1>
+      <span class="L on" data-l="it">Un rifugio di pace<br><em>nel cuore dell'Appennino</em></span>
+      <span class="L" data-l="fr">Un refuge de paix<br><em>au cœur des Apennins</em></span>
+      <span class="L" data-l="en">A peaceful retreat<br><em>in the heart of the Apennines</em></span>
+    </h1>
+    <p class="h-desc">
+      <span class="L on" data-l="it">Casa vacanze Villa Poggioli, a 2 km dal pittoresco borgo di Farini. Natura incontaminata, autenticità emiliana e servizi immobiliari di qualità in Alta Val Nure.</span>
+      <span class="L" data-l="fr">Maison de vacances Villa Poggioli, à 2 km du village de Farini. Nature préservée, authenticité émilienne et services immobiliers en Haute Val Nure.</span>
+      <span class="L" data-l="en">Villa Poggioli holiday home, 2 km from the village of Farini. Unspoilt nature, Emilian authenticity and quality real estate services in Upper Val Nure.</span>
+    </p>
+    <div class="h-cta">
+      <a href="https://www.villapoggioli.it/it/" target="_blank" class="btn-solid"><span class="L on" data-l="it">Prenota ora</span><span class="L" data-l="fr">Réserver</span><span class="L" data-l="en">Book now</span></a>
+      <a href="#stays" class="btn-ghost"><span class="L on" data-l="it">Scopri gli alloggi</span><span class="L" data-l="fr">Voir les hébergements</span><span class="L" data-l="en">Explore stays</span></a>
+    </div>
+  </div>
+  <div class="h-scroll"><span>scroll</span><div class="h-scroll-line"></div></div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="s-item"><span class="s-num">4</span><span class="s-lab"><span class="L on" data-l="it">Camere</span><span class="L" data-l="fr">Chambres</span><span class="L" data-l="en">Bedrooms</span></span></div>
+  <div class="s-item"><span class="s-num">9</span><span class="s-lab"><span class="L on" data-l="it">Ospiti max</span><span class="L" data-l="fr">Personnes max</span><span class="L" data-l="en">Max guests</span></span></div>
+  <div class="s-item"><span class="s-num">800m²</span><span class="s-lab"><span class="L on" data-l="it">Giardino privato</span><span class="L" data-l="fr">Jardin privé</span><span class="L" data-l="en">Private garden</span></span></div>
+  <div class="s-item"><span class="s-num">560km</span><span class="s-lab"><span class="L on" data-l="it">Sentieri Val Nure</span><span class="L" data-l="fr">Sentiers Val Nure</span><span class="L" data-l="en">Trails Val Nure</span></span></div>
+</div>
+
+<!-- INTRO -->
+<div class="intro">
+  <div class="i-text">
+    <span class="eye"><span class="L on" data-l="it">Chi siamo</span><span class="L" data-l="fr">Qui sommes-nous</span><span class="L" data-l="en">About us</span></span>
+    <h2 class="ttl">
+      <span class="L on" data-l="it">Un unico punto di riferimento<br><em>per la tua casa in Appennino</em></span>
+      <span class="L" data-l="fr">Un interlocuteur unique<br><em>pour votre maison en Apennin</em></span>
+      <span class="L" data-l="en">Your single point of contact<br><em>for your Apennine property</em></span>
+    </h2>
+    <p class="para"><span class="L on" data-l="it">Operiamo con professionalità nel settore immobiliare, offrendo un servizio completo per chi desidera vendere, acquistare o affittare casa a Farini e in Alta Val Nure.</span><span class="L" data-l="fr">Nous opérons avec professionnalisme dans le secteur immobilier, proposant un service complet pour vendre, acheter ou louer en Haute Val Nure.</span><span class="L" data-l="en">We operate professionally in the real estate sector, offering a complete service for those wishing to sell, buy or rent in Upper Val Nure.</span></p>
+    <p class="para"><span class="L on" data-l="it">Accompagniamo il cliente in ogni fase: dalla valutazione alla conclusione del contratto, con la massima trasparenza. Offriamo anche <strong>manutenzione di giardini</strong> e un servizio di <strong>custodia immobili</strong> per seconde case lasciate libere.</span><span class="L" data-l="fr">Nous accompagnons le client à chaque étape avec transparence. Nous proposons aussi l'<strong>entretien des jardins</strong> et un service de <strong>gardiennage</strong> pour les résidences secondaires.</span><span class="L" data-l="en">We guide each client through every step with full transparency. We also offer <strong>garden maintenance</strong> and a <strong>property management</strong> service for unoccupied second homes.</span></p>
+  </div>
+  <div class="i-img"><img src="img/farini.jpg" alt="Farini"></div>
+</div>
+
+<!-- STAYS -->
+<section class="stays" id="stays">
+  <div class="s-hd">
+    <span class="eye"><span class="L on" data-l="it">Casa Vacanze · Villa Poggioli</span><span class="L" data-l="fr">Hébergements · Villa Poggioli</span><span class="L" data-l="en">Accommodation · Villa Poggioli</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">I nostri alloggi <em>per ogni esigenza</em></span><span class="L" data-l="fr">Nos hébergements <em>pour chaque besoin</em></span><span class="L" data-l="en">Our accommodation <em>for every need</em></span></h2>
+  </div>
+  <div class="s-grid">
+    <div class="s-card">
+      <img src="img/suite-piacenza.jpg" alt="Suite Piacenza">
+      <div class="s-ov">
+        <span class="s-tag"><span class="L on" data-l="it">Per 2 persone</span><span class="L" data-l="fr">Pour 2 personnes</span><span class="L" data-l="en">For 2 guests</span></span>
+        <div class="s-name">Suite Piacenza</div>
+        <p class="s-desc"><span class="L on" data-l="it">Camera Queen Size, balcone e terrazza, bagno privato e angolo comfort con macchina da caffè, bollitore e frigorifero.</span><span class="L" data-l="fr">Lit Queen Size, balcon et terrasse, salle de bain privée et coin confort avec machine à café et réfrigérateur.</span><span class="L" data-l="en">Queen Size bed, balcony and terrace, private bathroom with coffee machine, kettle and fridge.</span></p>
+        <a href="https://www.villapoggioli.it/it/" target="_blank" class="s-lnk"><span class="L on" data-l="it">Prenota</span><span class="L" data-l="fr">Réserver</span><span class="L" data-l="en">Book</span></a>
+      </div>
+    </div>
+    <div class="s-card">
+      <img src="img/suite-poggioli.webp" alt="Suite Poggioli">
+      <div class="s-ov">
+        <span class="s-tag"><span class="L on" data-l="it">Per 2 persone</span><span class="L" data-l="fr">Pour 2 personnes</span><span class="L" data-l="en">For 2 guests</span></span>
+        <div class="s-name">Suite Poggioli</div>
+        <p class="s-desc"><span class="L on" data-l="it">Camera con terrazza, 2 bagni, cucina attrezzata e salotto. Giardino 800 m² con barbecue per serate sotto le stelle.</span><span class="L" data-l="fr">Chambre avec terrasse, 2 salles de bain, cuisine équipée et salon. Jardin 800 m² avec barbecue.</span><span class="L" data-l="en">Bedroom with terrace, 2 bathrooms, kitchen and lounge. 800 m² garden with barbecue.</span></p>
+        <a href="https://www.villapoggioli.it/it/" target="_blank" class="s-lnk"><span class="L on" data-l="it">Prenota</span><span class="L" data-l="fr">Réserver</span><span class="L" data-l="en">Book</span></a>
+      </div>
+    </div>
+    <div class="s-card">
+      <img src="img/villa-poggioli.jpg" alt="Villa Poggioli">
+      <div class="s-ov">
+        <span class="s-tag"><span class="L on" data-l="it">Fino a 9 ospiti</span><span class="L" data-l="fr">Jusqu'à 9 personnes</span><span class="L" data-l="en">Up to 9 guests</span></span>
+        <div class="s-name">Villa Poggioli</div>
+        <p class="s-desc"><span class="L on" data-l="it">4 camere, 3 bagni, cucina attrezzata, soggiorno. Tutti gli ambienti con balcone o terrazza. Giardino 800 m² con barbecue.</span><span class="L" data-l="fr">4 chambres, 3 salles de bain, cuisine équipée, séjour. Toutes pièces avec balcon ou terrasse. Jardin 800 m².</span><span class="L" data-l="en">4 bedrooms, 3 bathrooms, kitchen, living room. All rooms with balcony or terrace. 800 m² garden.</span></p>
+        <a href="https://www.villapoggioli.it/it/" target="_blank" class="s-lnk"><span class="L on" data-l="it">Prenota</span><span class="L" data-l="fr">Réserver</span><span class="L" data-l="en">Book</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<div class="gallery">
+  <div class="g-item tall"><img src="img/gallery-1.jpg" alt="Esterni"></div>
+  <div class="g-item"><img src="img/gallery-2.jpg" alt="Esterni villa"></div>
+  <div class="g-item"><img src="img/gallery-3.jpg" alt="Esterno"></div>
+  <div class="g-item tall"><img src="img/gallery-4.jpg" alt="Villa"></div>
+  <div class="g-item"><img src="img/gallery-5.jpg" alt="Interno"></div>
+  <div class="g-item"><img src="img/gallery-6.jpg" alt="Camera"></div>
+  <div class="g-item"><img src="img/gallery-7.jpg" alt="Scala"></div>
+  <div class="g-item"><img src="img/gallery-8.jpg" alt="Casa"></div>
+</div>
+
+<!-- HIGHLIGHTS -->
+<div class="hl">
+  <div class="hl-img"><img src="img/gallery-1.jpg" alt="Esterni"></div>
+  <div class="hl-body">
+    <span class="eye"><span class="L on" data-l="it">I punti di forza</span><span class="L" data-l="fr">Les points forts</span><span class="L" data-l="en">Key highlights</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">Tutto ciò che rende<br><em>il soggiorno indimenticabile</em></span><span class="L" data-l="fr">Tout ce qui rend<br><em>le séjour inoubliable</em></span><span class="L" data-l="en">Everything that makes<br><em>the stay unforgettable</em></span></h2>
+    <ul class="hl-list">
+      <li><span class="hl-ic">◈</span><span><strong><span class="L on" data-l="it">Giardino privato 800 m²</span><span class="L" data-l="fr">Jardin privé 800 m²</span><span class="L" data-l="en">800 m² private garden</span></strong><span class="L on" data-l="it">Vista panoramica, terrazza soleggiata con ombrelloni e barbecue</span><span class="L" data-l="fr">Vue panoramique, terrasse ensoleillée avec parasols et barbecue</span><span class="L" data-l="en">Panoramic views, sunny terrace with parasols and barbecue</span></span></li>
+      <li><span class="hl-ic">◈</span><span><strong><span class="L on" data-l="it">Interni luminosi e accoglienti</span><span class="L" data-l="fr">Intérieurs lumineux</span><span class="L" data-l="en">Bright welcoming interiors</span></strong><span class="L on" data-l="it">Cucina completamente attrezzata, soggiorno con grande terrazza</span><span class="L" data-l="fr">Cuisine entièrement équipée, salon avec grande terrasse</span><span class="L" data-l="en">Fully equipped kitchen, living room with large terrace</span></span></li>
+      <li><span class="hl-ic">◈</span><span><strong><span class="L on" data-l="it">Oltre 560 km di sentieri</span><span class="L" data-l="fr">Plus de 560 km de sentiers</span><span class="L" data-l="en">Over 560 km of trails</span></strong><span class="L on" data-l="it">Tra cui la celebre ippovia "Via degli Abati" attraverso la Val Nure</span><span class="L" data-l="fr">Dont la célèbre "Via degli Abati" à travers la Val Nure</span><span class="L" data-l="en">Including the famous "Via degli Abati" horse trail</span></span></li>
+      <li><span class="hl-ic">◈</span><span><strong><span class="L on" data-l="it">A 90 km da Chiavari e la Liguria</span><span class="L" data-l="fr">À 90 km de la Ligurie</span><span class="L" data-l="en">90 km from Liguria</span></strong><span class="L on" data-l="it">Centro storico medievale e passeggiata sul mare</span><span class="L" data-l="fr">Centre médiéval et promenade en bord de mer</span><span class="L" data-l="en">Medieval centre and seafront promenade</span></span></li>
+      <li><span class="hl-ic">◈</span><span><strong><span class="L on" data-l="it">Santo Stefano d'Aveto a 1 ora</span><span class="L" data-l="fr">Santo Stefano d'Aveto à 1h</span><span class="L" data-l="en">1h from Santo Stefano d'Aveto</span></strong><span class="L on" data-l="it">Sci d'inverno, transumanza e trekking d'estate</span><span class="L" data-l="fr">Ski en hiver, trekking en été</span><span class="L" data-l="en">Skiing in winter, trekking in summer</span></span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="svc" id="svc">
+  <div class="svc-hd">
+    <span class="eye"><span class="L on" data-l="it">I nostri servizi</span><span class="L" data-l="fr">Nos services</span><span class="L" data-l="en">Our services</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">Un unico interlocutore <em>per ogni esigenza</em></span><span class="L" data-l="fr">Un seul interlocuteur <em>pour chaque besoin</em></span><span class="L" data-l="en">One contact <em>for every need</em></span></h2>
+  </div>
+  <div class="svc-grid">
+    <div class="svc-card">
+      <div class="svc-img"><img src="img/svc-vacanza.jpg" alt="Casa Vacanza"></div>
+      <div class="svc-bd">
+        <div class="svc-n">01</div>
+        <div class="svc-t"><span class="L on" data-l="it">Casa Vacanza</span><span class="L" data-l="fr">Maison de Vacances</span><span class="L" data-l="en">Holiday Home</span></div>
+        <p class="svc-p"><span class="L on" data-l="it">Soggiorni da 2 a 9 ospiti in Alta Valnure. Un rifugio immerso nella natura incontaminata dell'Emilia-Romagna.</span><span class="L" data-l="fr">Séjours de 2 à 9 personnes en Haute Val Nure. Un refuge au cœur de la nature préservée d'Émilie-Romagne.</span><span class="L" data-l="en">Stays for 2 to 9 guests in Upper Val Nure. A retreat in unspoilt Emilia-Romagna.</span></p>
+        <a href="https://www.villapoggioli.it/it/" target="_blank" class="svc-arr"><span class="L on" data-l="it">Prenota</span><span class="L" data-l="fr">Réserver</span><span class="L" data-l="en">Book now</span> →</a>
+      </div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="img/farini.jpg" alt="Vendita"></div>
+      <div class="svc-bd">
+        <div class="svc-n">02</div>
+        <div class="svc-t"><span class="L on" data-l="it">Vendita & Affitti</span><span class="L" data-l="fr">Vente & Location</span><span class="L" data-l="en">Sales & Rentals</span></div>
+        <p class="svc-p"><span class="L on" data-l="it">Soluzioni per chi cerca affitti o una prima/seconda casa in Appennino Piacentino. Dalla valutazione alla firma del contratto.</span><span class="L" data-l="fr">Solutions pour ceux qui cherchent une location ou une maison dans les Apennins de Plaisance. De l'évaluation à la signature.</span><span class="L" data-l="en">Solutions for rentals or homes in the Piacenza Apennines. From valuation through to contract completion.</span></p>
+        <a href="#vd" class="svc-arr"><span class="L on" data-l="it">Vedi annunci</span><span class="L" data-l="fr">Voir les annonces</span><span class="L" data-l="en">View listings</span> →</a>
+      </div>
+    </div>
+    <div class="svc-card">
+      <div class="svc-img"><img src="img/svc-manu.jpg" alt="Manutenzione"></div>
+      <div class="svc-bd">
+        <div class="svc-n">03</div>
+        <div class="svc-t"><span class="L on" data-l="it">Manutenzione & Custodia</span><span class="L" data-l="fr">Maintenance & Gardiennage</span><span class="L" data-l="en">Maintenance & Property Care</span></div>
+        <p class="svc-p"><span class="L on" data-l="it">Manutenzione di giardini e piccoli interventi. Custodia immobili con controlli periodici, areazione e letture contatori.</span><span class="L" data-l="fr">Entretien des jardins et petites interventions. Gardiennage avec contrôles périodiques, aération et relevés.</span><span class="L" data-l="en">Garden maintenance and minor works. Property care with periodic checks, ventilation and meter readings.</span></p>
+        <a href="#cs" class="svc-arr"><span class="L on" data-l="it">Scopri di più</span><span class="L" data-l="fr">En savoir plus</span><span class="L" data-l="en">Learn more</span> →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<div class="cs" id="cs">
+  <div class="cs-hd">
+    <span class="eye"><span class="L on" data-l="it">Caso studio · Assè, Farini (PC)</span><span class="L" data-l="fr">Étude de cas · Assè, Farini (PC)</span><span class="L" data-l="en">Case study · Assè, Farini (PC)</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">Ristrutturazione <em>e gestione cantieri</em></span><span class="L" data-l="fr">Rénovation <em>et gestion de chantiers</em></span><span class="L" data-l="en">Renovation <em>and site management</em></span></h2>
+  </div>
+  <div class="cs-grid">
+    <div class="cs-it"><img src="img/chantier-1.jpg" alt=""></div>
+    <div class="cs-it"><img src="img/chantier-2.jpg" alt=""></div>
+    <div class="cs-it"><img src="img/chantier-3.jpg" alt=""></div>
+    <div class="cs-it"><img src="img/chantier-4.jpg" alt=""></div>
+    <div class="cs-it"><img src="img/chantier-5.jpg" alt=""></div>
+    <div class="cs-it"><img src="img/chantier-6.jpg" alt=""></div>
+  </div>
+  <div class="cs-feats">
+    <div class="cs-f"><span class="cs-ic">🔨</span><div><strong><span class="L on" data-l="it">Ristrutturazioni complete</span><span class="L" data-l="fr">Rénovations complètes</span><span class="L" data-l="en">Full renovations</span></strong><span><span class="L on" data-l="it">Interni ed esterni</span><span class="L" data-l="fr">Intérieurs et extérieurs</span><span class="L" data-l="en">Interiors and exteriors</span></span></div></div>
+    <div class="cs-f"><span class="cs-ic">🏠</span><div><strong><span class="L on" data-l="it">Restyling degli spazi</span><span class="L" data-l="fr">Relooking des espaces</span><span class="L" data-l="en">Space restyling</span></strong><span><span class="L on" data-l="it">Ottimizzazione degli ambienti</span><span class="L" data-l="fr">Optimisation des espaces de vie</span><span class="L" data-l="en">Living space optimisation</span></span></div></div>
+    <div class="cs-f"><span class="cs-ic">💡</span><div><strong><span class="L on" data-l="it">Progettazione personalizzata</span><span class="L" data-l="fr">Conception personnalisée</span><span class="L" data-l="en">Personalised design</span></strong><span><span class="L on" data-l="it">In base alle vostre esigenze</span><span class="L" data-l="fr">Selon vos besoins</span><span class="L" data-l="en">Tailored to your needs</span></span></div></div>
+    <div class="cs-f"><span class="cs-ic">🎨</span><div><strong><span class="L on" data-l="it">Finiture di qualità superiore</span><span class="L" data-l="fr">Finitions haute qualité</span><span class="L" data-l="en">Premium finishes</span></strong><span><span class="L on" data-l="it">Dettagli estetici curati</span><span class="L" data-l="fr">Détails esthétiques soignés</span><span class="L" data-l="en">Carefully crafted details</span></span></div></div>
+  </div>
+</div>
+
+<!-- AFFITTI -->
+<div class="affitti">
+  <div class="af-text">
+    <span class="eye"><span class="L on" data-l="it">Affitti brevi e lunghi</span><span class="L" data-l="fr">Locations courte et longue durée</span><span class="L" data-l="en">Short and long term rentals</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">Soggiornare tra <em>natura e tranquillità</em></span><span class="L" data-l="fr">Séjourner entre <em>nature et tranquillité</em></span><span class="L" data-l="en">Staying between <em>nature and tranquillity</em></span></h2>
+    <p class="para"><span class="L on" data-l="it">In Val Nure offriamo soluzioni in affitto adatte ad ogni esigenza: dalle permanenze brevi per weekend e vacanze, fino ai contratti più lunghi per chi desidera stabilirsi in un contesto verde e tranquillo.</span><span class="L" data-l="fr">En Val Nure, nous proposons des solutions de location pour chaque besoin : des courts séjours aux contrats longue durée pour ceux qui souhaitent s'installer dans un cadre serein et verdoyant.</span><span class="L" data-l="en">In Val Nure we offer rental solutions for every need: from short stays to longer contracts for those wishing to settle in a peaceful green environment.</span></p>
+    <p class="para"><span class="L on" data-l="it">Gli <strong>affitti brevi</strong> sono perfetti per scoprire l'Alta Val Nure. Per chi cerca stabilità, mettiamo a disposizione <strong>affitti a medio-lungo termine</strong> ideali per residenti, lavoratori e famiglie.</span><span class="L" data-l="fr">Les <strong>locations courtes durées</strong> sont parfaites pour découvrir la Haute Val Nure. Pour ceux qui cherchent un logement stable, nous proposons des <strong>locations longue durée</strong> idéales pour familles et résidents.</span><span class="L" data-l="en"><strong>Short-term rentals</strong> are perfect for discovering Upper Val Nure. For those seeking stability, we offer <strong>long-term rentals</strong> ideal for residents, workers and families.</span></p>
+    <a href="#contact" class="btn-line"><span class="L on" data-l="it">Contattaci per informazioni</span><span class="L" data-l="fr">Nous contacter</span><span class="L" data-l="en">Get in touch</span></a>
+  </div>
+  <div class="af-ph">
+    <div><img src="img/affitti-1.png" alt="Affitti"></div>
+    <div><img src="img/affitti-2.jpg" alt="Val Nure"></div>
+    <div><img src="img/affitti-3.jpg" alt="Val Nure 2"></div>
+  </div>
+</div>
+
+<!-- VENDITA -->
+<section class="vd" id="vd">
+  <div class="vd-hd">
+    <div>
+      <span class="eye"><span class="L on" data-l="it">Case in vendita · Farini (PC)</span><span class="L" data-l="fr">Maisons à vendre · Farini (PC)</span><span class="L" data-l="en">Houses for sale · Farini (PC)</span></span>
+      <h2 class="ttl"><span class="L on" data-l="it">Tranquillità, natura <em>e qualità della vita</em></span><span class="L" data-l="fr">Tranquillité, nature <em>et qualité de vie</em></span><span class="L" data-l="en">Tranquillity, nature <em>and quality of life</em></span></h2>
+    </div>
+    <a href="#contact" class="btn-line" style="margin-top:0;"><span class="L on" data-l="it">Richiedi informazioni</span><span class="L" data-l="fr">Demander des infos</span><span class="L" data-l="en">Request information</span></a>
+  </div>
+  <div class="vd-grid">
+    <div class="vd-it"><img src="img/vendita-1.jpg" alt="Casa Farini"></div>
+    <div class="vd-it"><img src="img/vendita-2.jpg" alt="Casa vendita"></div>
+    <div class="vd-it"><img src="img/vendita-3.jpg" alt="Immobile"></div>
+    <div class="vd-it"><img src="img/vendita-4.jpg" alt="Casa 2"></div>
+    <div class="vd-it"><img src="img/vendita-5.jpg" alt="Immobile 2"></div>
+    <div class="vd-it"><img src="img/vendita-6.jpg" alt="Appartamento"></div>
+  </div>
+</section>
+
+<!-- GASTRO -->
+<div class="gastro">
+  <span class="g-ico">🍷</span>
+  <div class="g-txt">
+    <h3><span class="L on" data-l="it">Sapori & Patrimonio Piacentino</span><span class="L" data-l="fr">Saveurs & Patrimoine de Plaisance</span><span class="L" data-l="en">Piacenza's Flavours & Heritage</span></h3>
+    <p><span class="L on" data-l="it">Gastronomia generosa e patrimonio culturale a portata di mano</span><span class="L" data-l="fr">Gastronomie généreuse et patrimoine culturel à portée de main</span><span class="L" data-l="en">Generous gastronomy and cultural heritage within easy reach</span></p>
+  </div>
+  <div class="g-tags">
+    <span class="g-tag">Tortelli con la coda</span>
+    <span class="g-tag">Torta di patate</span>
+    <span class="g-tag">Salumi D.O.C.</span>
+    <span class="g-tag">Castelli del Ducato</span>
+    <span class="g-tag">Grazzano Visconti</span>
+    <span class="g-tag">Bardi</span>
+  </div>
+</div>
+
+<!-- TERRITORY -->
+<section class="terr" id="terr">
+  <span class="eye"><span class="L on" data-l="it">Natura & Scoperta</span><span class="L" data-l="fr">Nature & Découverte</span><span class="L" data-l="en">Nature & Discovery</span></span>
+  <h2 class="ttl"><span class="L on" data-l="it">Al centro di tutto ciò che è <em>bello</em></span><span class="L" data-l="fr">Au centre de tout ce qui est <em>beau</em></span><span class="L" data-l="en">At the heart of everything <em>beautiful</em></span></h2>
+  <div class="t-grid">
+    <div class="t-item"><span class="t-d">2 km</span><span class="t-p">Farini</span><span class="t-n"><span class="L on" data-l="it">Borgo pittoresco</span><span class="L" data-l="fr">Village pittoresque</span><span class="L" data-l="en">Picturesque village</span></span></div>
+    <div class="t-item"><span class="t-d">90 km</span><span class="t-p">Chiavari</span><span class="t-n"><span class="L on" data-l="it">Spiagge liguri</span><span class="L" data-l="fr">Plages de Ligurie</span><span class="L" data-l="en">Ligurian beaches</span></span></div>
+    <div class="t-item"><span class="t-d">1h</span><span class="t-p">Santo Stefano d'Aveto</span><span class="t-n"><span class="L on" data-l="it">Sci & trekking</span><span class="L" data-l="fr">Ski & trekking</span><span class="L" data-l="en">Ski & trekking</span></span></div>
+    <div class="t-item"><span class="t-d">~1h</span><span class="t-p">Piacenza · Parma</span><span class="t-n"><span class="L on" data-l="it">Arte & cultura</span><span class="L" data-l="fr">Art & culture</span><span class="L" data-l="en">Art & culture</span></span></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact" id="contact">
+  <div class="c-txt">
+    <span class="eye"><span class="L on" data-l="it">Contatti</span><span class="L" data-l="fr">Contact</span><span class="L" data-l="en">Contact</span></span>
+    <h2 class="ttl"><span class="L on" data-l="it">Siamo a <em>vostra disposizione</em></span><span class="L" data-l="fr">Nous sommes à <em>votre disposition</em></span><span class="L" data-l="en">We are at <em>your service</em></span></h2>
+    <div class="c-items">
+      <div class="c-it"><div class="c-ico">☎</div><div><span class="c-lab"><span class="L on" data-l="it">Telefono</span><span class="L" data-l="fr">Téléphone</span><span class="L" data-l="en">Phone</span></span><div class="c-val"><a href="tel:+393930070291">+39 393 007 0291</a></div></div></div>
+      <div class="c-it"><div class="c-ico">✉</div><div><span class="c-lab">E-mail</span><div class="c-val"><a href="mailto:casapoggioli.srl@gmail.com">casapoggioli.srl@gmail.com</a></div></div></div>
+      <div class="c-it"><div class="c-ico">◉</div><div><span class="c-lab"><span class="L on" data-l="it">Indirizzo</span><span class="L" data-l="fr">Adresse</span><span class="L" data-l="en">Address</span></span><div class="c-val">Farini, Alta Val Nure<br>Provincia di Piacenza, Emilia-Romagna</div></div></div>
+    </div>
+    <a href="https://www.villapoggioli.it/it/" target="_blank" class="btn-line" style="display:inline-block;margin-top:2rem;"><span class="L on" data-l="it">Prenota il tuo soggiorno</span><span class="L" data-l="fr">Réservez votre séjour</span><span class="L" data-l="en">Book your stay</span></a>
+  </div>
+  <div class="c-vis">
+    <img src="img/contact.jpg" alt="Val Nure">
+    <div class="c-cap">
+      <span>Emilia-Romagna · Farini (PC)</span>
+      <p><span class="L on" data-l="it">Alta Val Nure,<br>un luogo dove sentirsi<br><em>subito a casa</em></span><span class="L" data-l="fr">Haute Val Nure,<br>un endroit pour se sentir<br><em>immédiatement chez soi</em></span><span class="L" data-l="en">Upper Val Nure,<br>a place to feel<br><em>instantly at home</em></span></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">CASA POGGIOLI srl</div>
+  <ul class="f-lnks">
+    <li><a href="#stays"><span class="L on" data-l="it">Alloggi</span><span class="L" data-l="fr">Hébergements</span><span class="L" data-l="en">Stays</span></a></li>
+    <li><a href="#svc">Services</a></li>
+    <li><a href="#vd"><span class="L on" data-l="it">Vendita</span><span class="L" data-l="fr">Vente</span><span class="L" data-l="en">Sales</span></a></li>
+    <li><a href="#contact"><span class="L on" data-l="it">Contatti</span><span class="L" data-l="fr">Contact</span><span class="L" data-l="en">Contact</span></a></li>
+    <li><a href="https://www.villapoggioli.it/it/" target="_blank">villapoggioli.it</a></li>
+  </ul>
+  <span class="f-copy">© 2026 CASA POGGIOLI srl — Alta Val Nure, Piacenza</span>
+</footer>
+
+<script>
+  // Banner + nav offset
+  const bannerEl = document.querySelector('.banner');
+  const navEl = document.getElementById('nav');
+  function updateNav(){
+    const banH = bannerEl.offsetHeight;
+    const scrolled = window.scrollY > banH;
+    if(scrolled){ navEl.style.top='0'; navEl.classList.add('scrolled'); }
+    else{ navEl.style.top=(banH-window.scrollY)+'px'; navEl.classList.remove('scrolled'); }
+  }
+  window.addEventListener('scroll',updateNav,{passive:true});
+  updateNav();
+
+  // Language
+  function setLang(l){
+    document.querySelectorAll('.lb').forEach(b=>b.classList.toggle('on',b.textContent.trim()===l.toUpperCase()));
+    document.querySelectorAll('[data-l]').forEach(el=>el.classList.toggle('on',el.getAttribute('data-l')===l));
+    document.documentElement.lang=l;
+  }
+
+  // Smooth scroll
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',e=>{
+      const t=document.querySelector(a.getAttribute('href'));
+      if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+    });
+  });
+
+  // Mobile menu
+  function toggleMenu(){
+    const nl=document.querySelector('.nav-links');
+    const open=nl.style.display==='flex';
+    if(open){nl.removeAttribute('style');}
+    else{Object.assign(nl.style,{display:'flex',flexDirection:'column',position:'fixed',top:'64px',left:'0',right:'0',background:'rgba(248,245,240,0.98)',padding:'2rem',gap:'1.5rem',backdropFilter:'blur(16px)',zIndex:'99'});}
+  }
+
+  // Scroll reveal
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';obs.unobserve(e.target);}});
+  },{threshold:0.06});
+  document.querySelectorAll('.svc-card,.t-item,.s-item,.cs-it,.vd-it,.s-card').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(16px)';
+    el.style.transition=`opacity 0.5s ${i*0.05}s ease,transform 0.5s ${i*0.05}s ease`;
+    obs.observe(el);
+  });
+</script>
+</body>
+</html>
